@@ -26,7 +26,7 @@ namespace HR.LeaveManagement.Application.Features.LeaveType.Commands.CreateLeave
                 
             }
             var leaveEntity = _mapper.Map<Domain.LeaveType>(request);
-            var data = await _leaveTypeRepository.Create(leaveEntity);
+            var data = await _leaveTypeRepository.CreateAsync(leaveEntity);
             return data.Id;
         }
     }

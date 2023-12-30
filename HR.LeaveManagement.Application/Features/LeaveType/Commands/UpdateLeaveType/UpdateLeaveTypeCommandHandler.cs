@@ -22,7 +22,7 @@ namespace HR.LeaveManagement.Application.Features.LeaveType.Commands.UpdateLeave
         {
             // TODO: Validate Incoming Request
             var leaveTypeToUpdate = _mapper.Map<Domain.LeaveType>(request);
-            await _leaveTypeRepository.Update(leaveTypeToUpdate);
+            await _leaveTypeRepository.UpdateAsync(leaveTypeToUpdate);
             return Unit.Value;
         }
     }

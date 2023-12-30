@@ -24,7 +24,7 @@ namespace HR.LeaveManagement.Application.Features.LeaveType.Commands.DeleteLeave
             {
                 throw new NotFoundException(nameof(Domain.LeaveType), request.Id);
             }
-            await _leaveTypeRepository.Delete(leaveTypeToDelete);
+            await _leaveTypeRepository.DeleteAsync(leaveTypeToDelete);
             return Unit.Value;
         }
     }
