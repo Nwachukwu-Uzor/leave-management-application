@@ -28,15 +28,16 @@ namespace HR.LeaveManagement.Persistence.Repositories
             return entity;
         }
 
-        public async Task<List<T>> GetAllAsync()
+        public async Task<IReadOnlyList<T>> GetAllAsync()
         {
-            var entity = await _context.Set<T>().ToListAsync();
+            var entity = await _context.Set<T>().AsNoTracking().ToListAsync();
             return entity;
         }
 
         public async Task<T> GetByIdAsync(int id)
         {
-            var entity = await _context.Set<T>().FirstOrDefaultAsync(item => item.Id == id);
+            var entity = await _context.Set<T>().AsNoTracking()
+                .FirstOrDefaultAsync(item => item.Id == id);
             return entity;
         }
 
