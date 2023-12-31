@@ -20,7 +20,8 @@ public class CreateLeaveTypeCommandValidator : AbstractValidator<CreateLeaveType
             .GreaterThan(1).WithMessage("{PropertyName} must be greater than 1");
 
         RuleFor(q => q)
-            .MustAsync(LeaveTypeNameUnique);
+            .MustAsync(LeaveTypeNameUnique)
+            .WithMessage("Leave Type name must be unique");
         
     }
 

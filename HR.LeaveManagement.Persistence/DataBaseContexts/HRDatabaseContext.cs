@@ -26,10 +26,10 @@ namespace HR.LeaveManagement.Persistence.DataBaseContexts
                 .Where(q => q.State == EntityState.Modified || q.State == EntityState.Added)
             )
             {
-                entry.Entity.DateModified = DateTime.Now;
+                entry.Entity.DateModified = DateTime.UtcNow;
                 if (entry.State == EntityState.Added)
                 {
-                    entry.Entity.DateCreated = DateTime.Now;
+                    entry.Entity.DateCreated = DateTime.UtcNow;
                 }
             }
             return base.SaveChangesAsync(cancellationToken);

@@ -28,6 +28,11 @@ namespace HR.LeaveManagement.Persistence.Repositories
             return entity;
         }
 
+        public async Task<bool> DoesEntityExistAsync(int id)
+        {
+            return await _context.Set<T>().AnyAsync(entity => entity.Id == id);
+        }
+
         public async Task<IReadOnlyList<T>> GetAllAsync()
         {
             var entity = await _context.Set<T>().AsNoTracking().ToListAsync();

@@ -30,7 +30,7 @@ namespace HR.LeaveManagement.Application.Features.LeaveType.Commands.UpdateLeave
             var validationResult = await validator.ValidateAsync(request);
             if (!validationResult.Errors.Any())
             {
-                _logger.LogWarning("Validation errors for the request {0} - {1}", nameof(LeaveType), request.Id);
+                _logger.LogWarning("Validation errors for the request {0} - {1}", nameof(Domain.LeaveType), request.Id);
                 throw new BadRequestException("Invalid Leave type", validationResult);
             }
             var leaveTypeToUpdate = _mapper.Map<Domain.LeaveType>(request);
