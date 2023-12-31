@@ -10,13 +10,23 @@ namespace HR.LeaveManagement.Persistence;
 public static class PersistenceServiceRegistration
 {
     public static IServiceCollection AddPersistenceServices(
-        this IServiceCollection services, IConfiguration configuration
+        this IServiceCollection services, IConfiguration configuration, bool isDevelopment
     )
     {
-        services.AddDbContext<HRDatabaseContext>(options =>
+        if (isDevelopment)
         {
-            options.UseSqlServer(configuration.GetConnectionString("HRLeaveManagementConnectionString"));
-        });
+            services.AddDbContext<HRDatabaseContext>(options =>
+            {
+                options.UseNpgsql(configuration.GetConnectionString("HRLeaveManagementConnectionStringDevelopment"));
+            });
+        } else
+        {
+            services.AddDbContext<HRDatabaseContext>(options =>
+            {
+                options.UseNpgsql(configuration.GetConnectionString("HRLeaveManagementConnectionStringProduction"));
+            });
+        }
+       
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
         services.AddScoped<ILeaveAllocationRepository, LeaveAllocationRepository>();
