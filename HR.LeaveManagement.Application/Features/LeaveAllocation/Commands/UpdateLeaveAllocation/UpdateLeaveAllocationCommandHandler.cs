@@ -45,7 +45,7 @@ public class UpdateLeaveAllocationCommandHandler : IRequestHandler<UpdateLeaveAl
                 nameof(Domain.LeaveAllocation), 
                 request.Id
             );
-            throw new NotFoundException("Leave Allocation with the key {0} was not found", request.Id);
+            throw new NotFoundException(nameof(Domain.LeaveAllocation), request.Id);
         }
         var entity = _mapper.Map(request, existingLeaveAllocation);
         await _leaveAllocationRepository.UpdateAsync(entity);

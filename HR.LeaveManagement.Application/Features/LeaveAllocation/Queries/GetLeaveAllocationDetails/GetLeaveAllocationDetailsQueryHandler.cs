@@ -25,7 +25,7 @@ public class GetLeaveAllocationDetailsQueryHandler : IRequestHandler<GetLeaveAll
         if (leaveAllocation == null)
         {
             _logger.LogWarning("Domain entity {0} with the key {1} was not found", nameof(LeaveAllocation), request.Id);
-            throw new NotFoundException("The leave allocation with the Id {0} was not found.", request.Id);
+            throw new NotFoundException(nameof(Domain.LeaveAllocation), request.Id);
         }
         var data = _mapper.Map<GetLeaveAllocationsDetailsDto>(leaveAllocation);
         return data;

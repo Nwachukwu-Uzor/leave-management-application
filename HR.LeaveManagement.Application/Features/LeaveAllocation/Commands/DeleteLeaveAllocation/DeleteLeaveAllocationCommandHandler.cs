@@ -18,7 +18,7 @@ public class DeleteLeaveAllocationCommandHandler : IRequestHandler<DeleteLeaveAl
         var leaveAllocation = await _leaveAllocationRepository.GetByIdAsync(request.Id);
         if (leaveAllocation == null)
         {
-            throw new NotFoundException("Leave Allocation with the id {0} not found", request.Id);
+            throw new NotFoundException(nameof(Domain.LeaveAllocation), request.Id);
         }
         await _leaveAllocationRepository.DeleteAsync(leaveAllocation);
         return Unit.Value;
