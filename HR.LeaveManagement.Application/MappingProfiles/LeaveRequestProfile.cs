@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using HR.LeaveManagement.Application.Features.LeaveRequest.Commands.CreateLeaveRequest;
+using HR.LeaveManagement.Application.Features.LeaveRequest.Commands.UpdateLeaveRequest;
 using HR.LeaveManagement.Application.Features.LeaveRequest.Queries.GetLeaveRequestDetails;
 using HR.LeaveManagement.Application.Features.LeaveRequest.Queries.GetLeaveRequestsList;
 using HR.LeaveManagement.Domain;
@@ -10,6 +12,8 @@ public class LeaveRequestProfile : Profile
     public LeaveRequestProfile()
     {
         CreateMap<LeaveRequest, LeaveRequestsListDto>();
-        CreateMap<LeaveRequest, LeaveRequestDetailDto>();
+        CreateMap<LeaveRequest, LeaveRequestDetailsDto>();
+        CreateMap<UpdateLeaveRequestCommand, LeaveRequest>();
+        CreateMap<CreateLeaveRequestCommand, LeaveRequest>();
     }
 }

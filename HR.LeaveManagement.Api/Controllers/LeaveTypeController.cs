@@ -18,7 +18,8 @@ namespace HR.LeaveManagement.Api.Controllers
             _meditor = meditor;
         }
 
-        [HttpGet(nameof(GetAll))]
+        [HttpGet]
+        [Route(nameof(GetAll))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<List<LeaveTypeDto>>> GetAll()
@@ -27,7 +28,8 @@ namespace HR.LeaveManagement.Api.Controllers
             return Ok(response);
         }
 
-        [HttpGet($"{nameof(GetLeaveType)}/{{id}}")]
+        [HttpGet]
+        [Route(nameof(GetLeaveType) + "/{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -37,28 +39,29 @@ namespace HR.LeaveManagement.Api.Controllers
             return Ok(response);
         }
 
-        [HttpPost(nameof(CreateLeaveType))]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [HttpPost]
+        [Route(nameof(CreateLeaveType))]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task <ActionResult> CreateLeaveType(CreateLeaveTypeCommand command)
         {
-            await _meditor.Send(command);
-            // return CreatedAtAction(nameof(GetLeaveType), new {id = reponse});
-            return NoContent();
+            var response = await _meditor.Send(command);
+            return CreatedAtAction(nameof(GetLeaveType), new { id = response}, null);
         }
         
-        [HttpPut(nameof(UpdateLeaveType))]
+        [HttpPut]
+        [Route(nameof(UpdateLeaveType))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task <ActionResult> UpdateLeaveType(UpdateLeaveTypeCommand command)
         {
             await _meditor.Send(command);
-            // return CreatedAtAction(nameof(GetLeaveType), new {id = reponse});
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route(nameof(DeleteLeaveType) + "/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

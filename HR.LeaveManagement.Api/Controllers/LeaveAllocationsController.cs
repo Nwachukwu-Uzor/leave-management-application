@@ -19,35 +19,53 @@ public class LeaveAllocationsController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet(nameof(GetAll))]
+    [HttpGet]
+    [Route(nameof(GetAll))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<List<GetLeaveAllocationsDto>>> GetAll()
     {
         var response = await _mediator.Send(new GetLeaveAllocationsQuery());
         return Ok(response);
     }
 
-    [HttpGet($"{nameof(GetById)}/{{id}}")]
+    [HttpGet]
+    [Route(nameof(GetById) + "/{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<GetLeaveAllocationsDetailsDto>> GetById(int id)
     {
         var leaveAllocation = await _mediator.Send(new GetLeaveAllocationDetailsQuery(id));
         return Ok(leaveAllocation);
     }
 
-    [HttpPost(nameof(CreateLeaveAllocation))]
+    [HttpPost]
+    [Route(nameof(CreateLeaveAllocation))]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> CreateLeaveAllocation(CreateLeaveAllocationCommand command)
     {
-        await _mediator.Send(command);
-        return NoContent();
+        var response = await _mediator.Send(command);
+        return CreatedAtAction(nameof(GetById), new { id = response }, null);
     }
 
-    [HttpPut(nameof(UpdateLeaveAllocation))]
+    [HttpPut]
+    [Route(nameof(UpdateLeaveAllocation))]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> UpdateLeaveAllocation(UpdateLeaveAllocationCommand command)
     {
         await _mediator.Send(command);
         return NoContent();
     }
 
-    [HttpDelete($"{nameof(DeleteLeaveAllocation)}/{{id}}")]
+    [HttpDelete]
+    [Route(nameof(DeleteLeaveAllocation) + "/{id:int}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteLeaveAllocation(int id)
     {
         await _mediator.Send(new DeleteLeaveAllocationCommand(id));

@@ -2,7 +2,7 @@
 
 namespace HR.LeaveManagement.Application.Features.LeaveRequest.Queries.GetLeaveRequestDetails;
 
-public class LeaveRequestDetailDto
+public class LeaveRequestDetailsDto
 {
     public int Id { get; set; }
     public LeaveTypeDto LeaveType { get; set; }
