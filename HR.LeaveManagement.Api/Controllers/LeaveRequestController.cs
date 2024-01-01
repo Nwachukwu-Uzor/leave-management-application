@@ -1,4 +1,8 @@
-﻿using HR.LeaveManagement.Application.Features.LeaveRequest.Commands.CreateLeaveRequest;
+﻿using HR.LeaveManagement.Application.Features.LeaveRequest.Commands.CancelLeaveRequest;
+using HR.LeaveManagement.Application.Features.LeaveRequest.Commands.ChangeLeaveRequestApproval;
+using HR.LeaveManagement.Application.Features.LeaveRequest.Commands.CreateLeaveRequest;
+using HR.LeaveManagement.Application.Features.LeaveRequest.Commands.DeleteLeaveRequest;
+using HR.LeaveManagement.Application.Features.LeaveRequest.Commands.UpdateLeaveRequest;
 using HR.LeaveManagement.Application.Features.LeaveRequest.Queries.GetLeaveRequestDetails;
 using HR.LeaveManagement.Application.Features.LeaveRequest.Queries.GetLeaveRequestsList;
 using MediatR;
@@ -45,6 +49,50 @@ namespace HR.LeaveManagement.Api.Controllers
         {
             var response = await _mediator.Send(command);
             return CreatedAtAction(nameof(GetById), new { id = response}, null);
+        }
+
+        [HttpPut]
+        [Route(nameof(UpdateLeaveRequest))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> UpdateLeaveRequest(UpdateLeaveRequestCommand command)
+        {
+            await _mediator.Send(command);
+            return NoContent();
+        }
+
+        [HttpPut]
+        [Route(nameof(CancelLeaveRequest))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> CancelLeaveRequest(CancelLeaveRequestCommand command)
+        {
+            await _mediator.Send(command);
+            return NoContent();
+        }
+
+        [HttpPut]
+        [Route(nameof(ChangeLeaveRequestApproval))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> ChangeLeaveRequestApproval(ChangeLeaveRequestApprovalCommand command)
+        {
+            await _mediator.Send(command);
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route(nameof(DeleteLeaveRequest) + "/{id:int}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> DeleteLeaveRequest(int id)
+        {
+            await _mediator.Send(new DeleteLeaveRequestCommand(id));
+            return NoContent();
         }
     }
 }
