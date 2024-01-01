@@ -20,23 +20,24 @@ public class UpdateLeaveAllocationCommandValidator : AbstractValidator<UpdateLea
             .WithMessage("{PropertyName} is not a valid Leave Type Id");
 
         RuleFor(p => p.Period)
-            .NotNull()
-            .NotEmpty()
-            .GreaterThan(1).WithMessage("{PropertyName} must be greater than 1")
-            .LessThan(100).WithMessage("{PropertyName} must be less than 100");
+            .GreaterThanOrEqualTo(DateTime.Now.Year)
+            .WithMessage("{PropertyName} must be greater than or equal to {ComparisonValue}");
 
         RuleFor(p => p.NumberOfDays)
             .NotNull()
             .NotEmpty()
-            .GreaterThan(1).WithMessage("{PropertyName} must be greater than 1")
-            .LessThan(100).WithMessage("{PropertyName} must be less than 100");
-
-        RuleFor(p => p.EmployeeId)
-            .NotNull().NotEmpty().WithMessage("{PropertyName} is required")
-            .MinimumLength(1);
+            .GreaterThan(0).WithMessage("{PropertyName} must be greater than 0");
+        RuleFor(p => p)
+            .MustAsync(NumberOfDaysLessThanLeaveTypeDefaultDays);
 
         _leaveTypeRepository = leaveTypeRepository;
         _leaveAllocationRepository = leaveAllocationRepository;
+    }
+
+    private async Task<bool> NumberOfDaysLessThanLeaveTypeDefaultDays(UpdateLeaveAllocationCommand command, CancellationToken token)
+    {
+        var leaveType = await _leaveTypeRepository.GetByIdAsync(command.LeaveTypeId);
+        return leaveType.DefaultDays >= command.NumberOfDays;
     }
 
     private async Task<bool> LeaveAllocationExists(int id, CancellationToken token)

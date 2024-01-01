@@ -30,6 +30,9 @@ public class CreateLeaveAllocationCommandHandler : IRequestHandler<CreateLeaveAl
         {
             throw new BadRequestException("Invalid Leave Allocation", validationResult);
         }
+        // TODO:
+        //      1. Find Employee
+        //      2. Add leave period
         var entity = _mapper.Map<Domain.LeaveAllocation>(request);
         await _leaveAllocationRepository.CreateAsync(entity);
         return entity.Id;

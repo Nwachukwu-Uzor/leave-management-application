@@ -37,7 +37,17 @@ public class UpdateLeaveAllocationCommandHandler : IRequestHandler<UpdateLeaveAl
             );
             throw new BadRequestException("Invalid Leave Allocation", validationResult);
         }
-        var entity = _mapper.Map<Domain.LeaveAllocation>(request);
+        var existingLeaveAllocation = await _leaveAllocationRepository.GetByIdAsync(request.Id);
+        if (existingLeaveAllocation == null)
+        {
+            _logger.LogWarning(
+                "Request for domain entity {0} with key {1} was not found",
+                nameof(Domain.LeaveAllocation), 
+                request.Id
+            );
+            throw new NotFoundException("Leave Allocation with the key {0} was not found", request.Id);
+        }
+        var entity = _mapper.Map(request, existingLeaveAllocation);
         await _leaveAllocationRepository.UpdateAsync(entity);
         return Unit.Value;
     }

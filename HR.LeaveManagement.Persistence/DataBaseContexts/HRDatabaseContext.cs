@@ -31,6 +31,10 @@ namespace HR.LeaveManagement.Persistence.DataBaseContexts
                 {
                     entry.Entity.DateCreated = DateTime.UtcNow;
                 }
+                else if (entry.State == EntityState.Modified)
+                {
+                    entry.Property(nameof(BaseEntity.DateCreated)).IsModified = false;
+                }
             }
             return base.SaveChangesAsync(cancellationToken);
         }
