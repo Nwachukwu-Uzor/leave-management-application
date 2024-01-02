@@ -1,3 +1,4 @@
+using HR.LeaveManagement.Api.Middlewares;
 using HR.LeaveManagement.Application;
 using HR.LeaveManagement.Infrastructure;
 using HR.LeaveManagement.Persistence;
@@ -21,12 +22,12 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// Add middleware
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
