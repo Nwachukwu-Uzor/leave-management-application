@@ -23,6 +23,7 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Add middleware
+app.UseCors("all");
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 // Configure the HTTP request pipeline.
 

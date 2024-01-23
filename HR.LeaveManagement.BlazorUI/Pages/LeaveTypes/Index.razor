@@ -1,0 +1,61 @@
+﻿@page "/leavetypes/"
+<h3>Leave Types</h3>
+
+<div class="m-2 d-flex justify-content-center">
+    <button @onclick="CreateLeaveType" class="btn btn-primary">Add Leave Type</button>
+</div>
+
+@if (!string.IsNullOrEmpty(Message))
+{
+    <div class="alert alert-danger">
+        <h4>@Message</h4>
+    </div>
+}
+
+@if (LeaveTypes == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Default Days</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var LeaveType in LeaveTypes)
+            {
+                <tr>
+                    <td>@LeaveType.Id</td>
+                    <td>@LeaveType.Name</td>
+                    <td>@LeaveType.DefaultDays</td>
+                    <td>
+                        <button class="btn btn-dark"
+                        @onclick=@(() => AllocateLeaveType(LeaveType.Id))>
+                            Allocate Leave
+                        </button>
+                        <button class="btn btn-warning"
+                        @onclick=@(() => EditLeaveType(LeaveType.Id))>
+                            Edit
+                        </button>
+                        <button class="btn btn-info"
+                        @onclick=@(() => DetailsLeaveType(LeaveType.Id))>
+                            Details
+                        </button>
+                        <button class="btn btn-danger"
+                        @onclick=@(() => DeleteLeaveType(LeaveType.Id))>
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
