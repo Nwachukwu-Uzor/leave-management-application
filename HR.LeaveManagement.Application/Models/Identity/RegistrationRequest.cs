@@ -9,7 +9,7 @@ public class RegistrationRequest
     [Required]
     public string LastName { get; set; }
     [Required]
-    [MinLength(16)]
+    [MinLength(4)]
     public string UserName { get; set; }
     [Required]
     [EmailAddress]

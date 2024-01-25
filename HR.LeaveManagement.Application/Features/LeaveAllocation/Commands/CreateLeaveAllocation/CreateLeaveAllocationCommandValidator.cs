@@ -14,11 +14,7 @@ public class CreateLeaveAllocationCommandValidator : AbstractValidator<CreateLea
             .NotEmpty().WithMessage("Leave type id is required")
             .NotNull()
             .MustAsync(LeaveTypeExists)
-            .WithMessage("{PropertyName} is not a valid Leave Type Id");
-
-        RuleFor(p => p.EmployeeId)
-            .NotNull().NotEmpty().WithMessage("{PropertyName} is required")
-            .MinimumLength(1);    
+            .WithMessage("{PropertyName} is not a valid Leave Type Id"); 
     }
 
     private async Task<bool> LeaveTypeExists(int id, CancellationToken token)

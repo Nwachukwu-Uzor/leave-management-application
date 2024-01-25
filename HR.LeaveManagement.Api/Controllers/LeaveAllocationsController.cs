@@ -46,8 +46,8 @@ public class LeaveAllocationsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> CreateLeaveAllocation(CreateLeaveAllocationCommand command)
     {
-        var response = await _mediator.Send(command);
-        return CreatedAtAction(nameof(GetById), new { id = response }, null);
+        await _mediator.Send(command);
+        return NoContent();
     }
 
     [HttpPut]
